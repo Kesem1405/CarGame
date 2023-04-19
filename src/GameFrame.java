@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -22,6 +21,7 @@ public class GameFrame extends JFrame {
             setLocationRelativeTo(null);
             setResizable(false);
             JPanel buttonPanel = new JPanel();
+            buttonPanel.setBackground(Color.BLACK);
             buttonPanel.setLayout(new GridLayout(3, 1));
             buttonPanel.setBackground(Color.WHITE);
             JButton startButton = new JButton("Start Game");
@@ -31,7 +31,6 @@ public class GameFrame extends JFrame {
                 player = new Player();
                 backgroundThread = new Thread(() -> {
                     backgroundPanel.add(player); // add the player instance to the background panel
-                    backgroundPanel.addPlayer(player); // add the player to the background panel and set its Z order
                     System.out.println(backgroundPanel.getComponentCount()); // print the number of components in the background panel
                     while (!player.isGameOver()) {
                         backgroundPanel.moveDown();

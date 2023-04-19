@@ -1,72 +1,52 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Random;
 
-public class Car extends JPanel {
+public class Car extends JLabel implements Runnable {
 
-    private BufferedImage carImage;
-    private int x, y;
-    private int speed;
+    private static final int WIDTH = 90;
+    private static final int HEIGHT = 120;
+    private static final int SPEED = 5;
+    private static final Random RANDOM = new Random();
 
-    public Car(int y) {
-        Random rand = new Random();
-        int carType = rand.nextInt(4) + 1;
-        String fileName = "";
-        switch(carType) {
-            case 1:
-                fileName = "Truck.png";
-                break;
-            case 2:
-                fileName = "Police.png";
-                break;
-            case 3:
-                fileName = "GreenCar.png";
-                break;
-            case 4:
-                fileName = "BlueCar.png";
-                break;
-        }
-        try {
-            carImage = ImageIO.read(new File(fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private boolean collided;
+    private Player player;
 
-        this.y = y;
-        x = rand.nextInt(534) + 128;
-        speed = rand.nextInt(5) + 5;
-        setPreferredSize(new Dimension(70, 30)); // set size
+    public Car(ImageIcon imageIcon, Player player) {
+        super(imageIcon);
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setOpaque(false);
+        this.player = player;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public boolean hasCollided(Player player) {
-        Rectangle carRect = new Rectangle(x, y, 70, 30);
-        Rectangle playerRect = new Rectangle(player.getX(), player.getY(), 70, 30);
-        return carRect.intersects(playerRect);
-    }
-
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(carImage, 0, 0, 70, 30, null);
-    }
-
-    public void move() {
-        y += speed;
-        if (y > 600) {
-            // Car has gone off the bottom of the screen
-            getParent().remove(this);
+    public void run() {
+        while (getY() < player.getY() + player.getHeight()) {
+            setLocation(getX(), getY() + SPEED);
+            if (getBounds().intersects(player.getBounds())) {
+                collided = true;
+                break;
+            }
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+        setVisible(false);
+    }
+
+    public boolean hasCollided() {
+        return collided;
+    }
+
+    public static Car createRandomCar(Player player) {
+        String[] carNames = {"Truck", "PoliceCar", "BlueCar", "RedCar", "GreenCar"};
+        int index = RANDOM.nextInt(carNames.length);
+        ImageIcon imageIcon = new ImageIcon(carNames[index] + ".png");
+        int x = 219 + RANDOM.nextInt(871 - WIDTH);
+        int y = -HEIGHT - RANDOM.nextInt(1000);
+        Car car = new Car(imageIcon, player);
+        car.setLocation(x, y);
+        return car;
     }
 }
