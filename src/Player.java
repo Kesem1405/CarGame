@@ -20,11 +20,11 @@ public class Player extends JLabel implements KeyListener {
         }
         x = 350;
         y = 480;
-        setIcon(new ImageIcon(carImage)); // set the car image as the icon of the JLabel
-        setOpaque(false); // make the JLabel transparent
+        setIcon(new ImageIcon(carImage));
+        setOpaque(false);
         setPreferredSize(new Dimension(carImage.getWidth(), carImage.getHeight()));
         addKeyListener(this);
-        resize(carImage, 90, 120); // resize the car image
+        resize(carImage, 90, 120);
         setFocusable(true);
         requestFocusInWindow();
     }
@@ -54,7 +54,6 @@ public class Player extends JLabel implements KeyListener {
             y += 10;
         }
 
-        // check for diagonal movement
         int key2 = e.getKeyCode();
         if ((key == KeyEvent.VK_LEFT && key2 == KeyEvent.VK_UP) ||
                 (key == KeyEvent.VK_UP && key2 == KeyEvent.VK_LEFT)) {

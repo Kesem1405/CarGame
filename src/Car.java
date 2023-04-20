@@ -34,7 +34,6 @@ public class Car extends JLabel implements Runnable {
         }
         setVisible(false);
 
-        // Reset the car's position and make it visible again
         int x = 219 + RANDOM.nextInt(871 - WIDTH);
         int y = -HEIGHT - RANDOM.nextInt(1000);
         setLocation(x, y);

@@ -36,8 +36,7 @@ public class GameFrame extends JFrame {
                 backgroundPanel.addCar();
                 player = new Player();
                 backgroundThread = new Thread(() -> {
-                    backgroundPanel.add(player); // add the player instance to the background panel
-                    System.out.println(backgroundPanel.getComponentCount()); // print the number of components in the background panel
+                    backgroundPanel.add(player);
                     boolean isOver = backgroundPanel.checkCollisions();
                     while (!player.isGameOver(isOver)) {
                         backgroundPanel.moveDown();
@@ -48,7 +47,7 @@ public class GameFrame extends JFrame {
                             ex.printStackTrace();
                         }
                     }
-                    backgroundThread = null; // set the backgroundThread to null after it has stopped
+                    backgroundThread = null;
                 });
                 backgroundThread.start();
                 player.setVisible(true);
@@ -56,7 +55,6 @@ public class GameFrame extends JFrame {
                 startButton.setVisible(false);
                 exitButton.setVisible(false);
                 instructionsButton.setVisible(false);
-                // Remove the button panel from the content pane
                 remove(buttonPanel);
                 setContentPane(backgroundPanel);
                 validate();
@@ -69,7 +67,7 @@ public class GameFrame extends JFrame {
             backgroundPanel = new BackgroundPanel();
             setContentPane(backgroundPanel);
 
-            // Add the button panel to the CENTER of the content pane
+
             add(buttonPanel, BorderLayout.CENTER);
 
         } catch (Exception ex) {
@@ -102,14 +100,14 @@ public class GameFrame extends JFrame {
             int carWidth = 120;
             int carHeight = 80;
             int x = random.nextInt(getWidth() - carWidth);
-            int y = -random.nextInt(getHeight()); // spawn the car above the top edge of the panel
+            int y = -random.nextInt(getHeight());
             String carName = carNames[random.nextInt(carNames.length)];
             ImageIcon imageIcon = new ImageIcon(carName + ".png");
             Car car = new Car(imageIcon, player);
             car.setBounds(x, y, carWidth, carHeight);
             add(car);
-            setComponentZOrder(car, 0); // make sure the car is painted in front of the background image
-            cars.add(car); // add the car to the list of cars
+            setComponentZOrder(car, 0);
+            cars.add(car);
         }
 
         public List<Car> getCars() {
@@ -122,7 +120,7 @@ public class GameFrame extends JFrame {
             for (Car car : cars) {
                 int distance = car.getY() - player.getY() - player.getHeight();
                 if (distance < 0) {
-                    continue; // skip cars that are above the player
+                    continue;
                 }
                 if (distance < minDistance) {
                     closestCar = car;
