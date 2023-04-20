@@ -29,8 +29,8 @@ public class Player extends JLabel implements KeyListener {
         requestFocusInWindow();
     }
 
-    public boolean isGameOver(){
-        return false;
+    public boolean isGameOver(boolean isOver){
+        return isOver;
     }
 
     private BufferedImage resize(BufferedImage image, int width, int height) {

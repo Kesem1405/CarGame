@@ -22,7 +22,7 @@ public class Car extends JLabel implements Runnable {
     public void run() {
         while (getY() < player.getY() + player.getHeight()) {
             setLocation(getX(), getY() + SPEED);
-            if (getBounds().intersects(player.getBounds())) {
+            if (player != null && getBounds().intersects(player.getBounds())) {
                 collided = true;
                 break;
             }
@@ -33,6 +33,13 @@ public class Car extends JLabel implements Runnable {
             }
         }
         setVisible(false);
+
+        // Reset the car's position and make it visible again
+        int x = 219 + RANDOM.nextInt(871 - WIDTH);
+        int y = -HEIGHT - RANDOM.nextInt(1000);
+        setLocation(x, y);
+        setVisible(true);
+        collided = false;
     }
 
     public boolean hasCollided() {
