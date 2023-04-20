@@ -43,18 +43,39 @@ public class Player extends JLabel implements KeyListener {
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        if (key == KeyEvent.VK_LEFT && x > 219) {
+
+        if (key == KeyEvent.VK_LEFT) {
             x -= 10;
-        } else if (key == KeyEvent.VK_RIGHT && x < 1020) {
+        } else if (key == KeyEvent.VK_RIGHT) {
             x += 10;
-        } else if (key == KeyEvent.VK_UP && y > 0) {
+        } else if (key == KeyEvent.VK_UP) {
             y -= 10;
-        } else if (key == KeyEvent.VK_DOWN && y < 880) {
+        } else if (key == KeyEvent.VK_DOWN) {
             y += 10;
         }
+
+        // check for diagonal movement
+        int key2 = e.getKeyCode();
+        if ((key == KeyEvent.VK_LEFT && key2 == KeyEvent.VK_UP) ||
+                (key == KeyEvent.VK_UP && key2 == KeyEvent.VK_LEFT)) {
+            x -= 10;
+            y -= 10;
+        } else if ((key == KeyEvent.VK_RIGHT && key2 == KeyEvent.VK_UP) ||
+                (key == KeyEvent.VK_UP && key2 == KeyEvent.VK_RIGHT)) {
+            x += 10;
+            y -= 10;
+        } else if ((key == KeyEvent.VK_LEFT && key2 == KeyEvent.VK_DOWN) ||
+                (key == KeyEvent.VK_DOWN && key2 == KeyEvent.VK_LEFT)) {
+            x -= 10;
+            y += 10;
+        } else if ((key == KeyEvent.VK_RIGHT && key2 == KeyEvent.VK_DOWN) ||
+                (key == KeyEvent.VK_DOWN && key2 == KeyEvent.VK_RIGHT)) {
+            x += 10;
+            y += 10;
+        }
+
         setLocation(x, y);
     }
-
     public void keyTyped(KeyEvent e) {}
 
     public void keyReleased(KeyEvent e) {}
